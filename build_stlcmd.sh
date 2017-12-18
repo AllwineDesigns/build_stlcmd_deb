@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#asdf
 cd /tmp
 git clone https://github.com/AllwineDesigns/stl_cmd.git
 cd stl_cmd
@@ -84,11 +83,14 @@ cat <<EOF > debian/rules
 #!/usr/bin/make -f
 %:
 \tdh \$@
+
 DEB_HOST_GNU_TYPE   ?= \$(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 
 ifeq (\$(origin CC),default)
 CC := \$(DEB_HOST_GNU_TYPE)-g++
 endif
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 override_dh_auto_build:
 \t\$(MAKE) CC=\$(CC)
