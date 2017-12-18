@@ -18,7 +18,7 @@ stlcmd (1.0-1) UNRELEASED; urgency=low
 
   * Initial release. (Closes: #884310)
 
- -- John Allwine <stl_cmd@allwinedesigns.com>  Sun, 17 Dec 2017 20:57:31 +0000
+ -- John Allwine <john@allwinedesigns.com>  Sun, 17 Dec 2017 20:57:31 +0000
 
 EOF
 
@@ -26,7 +26,7 @@ echo 10 > debian/compat
 
 cat <<EOF > debian/control
 Source: stlcmd
-Maintainer: John Allwine <stl_cmd@allwinedesigns.com>
+Maintainer: John Allwine <john@allwinedesigns.com>
 Section: misc
 Priority: optional
 Standards-Version: 3.9.7
@@ -55,6 +55,14 @@ cat <<EOF > debian/rules
 #!/usr/bin/make -f
 %:
 \tdh \$@
+DEB_HOST_GNU_TYPE   ?= \$(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+
+ifeq (\$(origin CC),default)
+CC := \$(DEB_HOST_GNU_TYPE)-g++
+endif
+
+override_dh_auto_build:
+\t\$(MAKE) CC=\$(CC)
 
 override_dh_auto_install:
 \t\$(MAKE) DESTDIR=\$\$(pwd)/debian/stlcmd prefix=/usr install
@@ -67,3 +75,14 @@ cat <<EOF > debian/source/format
 EOF
 
 debuild -us -uc
+
+cat <<EOF > ~/.dput.cf
+[mentors]
+fqdn = mentors.debian.net
+incoming = /upload
+method = http
+allow_unsigned_uploads = 0
+progress_indicator = 2
+# Allow uploads for UNRELEASED packages
+allowed_distributions = .*
+EOF
