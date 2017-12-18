@@ -9,6 +9,7 @@ mv stlcmd-1.0.tar.gz stlcmd_1.0.orig.tar.gz
 tar xf stlcmd_1.0.orig.tar.gz
 cd stlcmd-1.0
 mkdir -p debian/source
+mkdir -p debian/upstream
 
 # The output of the following cat command was originally created with manual changes after running
 # dch --create v 1.0-1 --package stlcmd
@@ -111,9 +112,12 @@ EOF
 
 cat <<EOF > debian/watch
 version=4
-opts=filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/stlcmd-$1\.tar\.gz/ \
-  https://github.com/AllwineDesigns/stl_cmd/tags .*/v?(\d\S+)\.tar\.gz
+opts=filenamemangle=s/.+\/v(\d\S+)\.tar\.gz/stlcmd-\$1\.tar\.gz/,\
+pgpsigurlmangle=s/archive\/v(\d\S+)\.tar\.gz/releases\/download\/v\$1\/stl_cmd-\$1.tar.gz.asc/ \
+https://github.com/AllwineDesigns/stl_cmd/releases .*/v?(\d\S+)\.tar\.gz
 EOF
+
+cp /tmp/signing-key.asc debian/upstream/signing-key.asc
 
 debuild -us -uc
 
