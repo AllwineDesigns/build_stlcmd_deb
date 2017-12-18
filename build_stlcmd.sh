@@ -1,5 +1,6 @@
 #!/bin/sh
 
+#asdf
 cd /tmp
 git clone https://github.com/AllwineDesigns/stl_cmd.git
 cd stl_cmd
@@ -91,9 +92,11 @@ endif
 
 override_dh_auto_build:
 \t\$(MAKE) CC=\$(CC)
+\t\$(MAKE) docs
 
 override_dh_auto_install:
 \t\$(MAKE) DESTDIR=\$\$(pwd)/debian/stlcmd prefix=/usr install
+\t\$(MAKE) DESTDIR=\$\$(pwd)/debian/stlcmd prefix=/usr installDocs
 EOF
 sed -i 's/\\t/\t/g' debian/rules
 chmod +x debian/rules
