@@ -99,12 +99,20 @@ override_dh_auto_build:
 override_dh_auto_install:
 \t\$(MAKE) DESTDIR=\$\$(pwd)/debian/stlcmd prefix=/usr install
 \t\$(MAKE) DESTDIR=\$\$(pwd)/debian/stlcmd prefix=/usr installDocs
+\tmkdir -p \$\$(pwd)/debian/stlcmd/usr/share/doc/stlcmd
+\tgzip -n -c -9 CHANGES > \$\$(pwd)/debian/stlcmd/usr/share/doc/stlcmd/changelog.gz
 EOF
 sed -i 's/\\t/\t/g' debian/rules
 chmod +x debian/rules
 
 cat <<EOF > debian/source/format
 3.0 (quilt)
+EOF
+
+cat <<EOF > debian/watch
+version=4
+opts=filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/stlcmd-$1\.tar\.gz/ \
+  https://github.com/AllwineDesigns/stl_cmd/tags .*/v?(\d\S+)\.tar\.gz
 EOF
 
 debuild -us -uc
