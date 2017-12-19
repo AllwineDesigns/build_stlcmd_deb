@@ -1,12 +1,17 @@
 #!/bin/sh
 
 cd /tmp
-git clone https://github.com/AllwineDesigns/stl_cmd.git
-cd stl_cmd
-git archive --format tar.gz --prefix stlcmd-1.0/ -o ../stlcmd-1.0.tar.gz master
-cd ..
-mv stlcmd-1.0.tar.gz stlcmd_1.0.orig.tar.gz
+#git clone https://github.com/AllwineDesigns/stl_cmd.git
+#cd stl_cmd
+#git archive --format tar.gz --prefix stlcmd-1.0/ -o ../stlcmd-1.0.tar.gz master
+#cd ..
+#mv stlcmd-1.0.tar.gz stlcmd_1.0.orig.tar.gz
+
+curl -L -o stlcmd_1.0.orig.tar.gz https://github.com/AllwineDesigns/stl_cmd/archive/v1.0.tar.gz
+curl -L -o stlcmd_1.0.orig.tar.gz.asc https://github.com/AllwineDesigns/stl_cmd/releases/download/v1.0/stl_cmd-1.0.tar.gz.asc
+
 tar xf stlcmd_1.0.orig.tar.gz
+mv stl_cmd-1.0 stlcmd-1.0
 cd stlcmd-1.0
 mkdir -p debian/source
 mkdir -p debian/upstream
@@ -15,7 +20,7 @@ mkdir -p debian/upstream
 # dch --create v 1.0-1 --package stlcmd
 
 cat <<EOF > debian/changelog 
-stlcmd (1.0-1) UNRELEASED; urgency=low
+stlcmd (1.0-1) unstable; urgency=low
 
   * Initial release. (Closes: #884310)
 
@@ -32,7 +37,7 @@ Homepage: https://www.github.com/AllwineDesigns/stl_cmd
 Section: misc
 Priority: optional
 Standards-Version: 3.9.8
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9), help2man
 
 Package: stlcmd
 Architecture: any
@@ -61,6 +66,13 @@ Files: *
 Copyright: 2017 Allwine Designs, LLC
 License: GPL-3
 
+Files: src/csgjs/*
+Copyright: 2011 Evan Wallace (http://madebyevan.com/)
+           2012 Joost Nieuwenhuijse (joost@newhouse.nl)
+           2017 @jscad
+           2017 Allwine Designs, LLC
+License: MIT
+
 License: GPL-3
   This package is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -78,6 +90,25 @@ License: GPL-3
   .
   On Debian systems, the complete text of the GNU General
   Public License can be found in \`/usr/share/common-licenses/GPL-3'.
+
+License: MIT
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  .
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  .
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
 EOF
 
 cat <<EOF > debian/rules
