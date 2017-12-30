@@ -7,19 +7,25 @@ cd /tmp
 #cd ..
 #mv stlcmd-1.0.tar.gz stlcmd_1.0.orig.tar.gz
 
-curl -L -o stlcmd_1.0.orig.tar.gz https://github.com/AllwineDesigns/stl_cmd/archive/v1.0.tar.gz
-curl -L -o stlcmd_1.0.orig.tar.gz.asc https://github.com/AllwineDesigns/stl_cmd/releases/download/v1.0/stl_cmd-1.0.tar.gz.asc
+curl -L -o stlcmd_1.1.orig.tar.gz https://github.com/AllwineDesigns/stl_cmd/archive/v1.1.tar.gz
+curl -L -o stlcmd_1.1.orig.tar.gz.asc https://github.com/AllwineDesigns/stl_cmd/releases/download/v1.1/stl_cmd-1.1.tar.gz.asc
 
-tar xf stlcmd_1.0.orig.tar.gz
-mv stl_cmd-1.0 stlcmd-1.0
-cd stlcmd-1.0
+tar xf stlcmd_1.1.orig.tar.gz
+mv stl_cmd-1.1 stlcmd-1.1
+cd stlcmd-1.1
 mkdir -p debian/source
 mkdir -p debian/upstream
 
 # The output of the following cat command was originally created with manual changes after running
-# dch --create v 1.0-1 --package stlcmd
+# dch --create v 1.1-1 --package stlcmd
 
 cat <<EOF > debian/changelog 
+stlcmd (1.1-1) unstable; urgency=medium
+
+  * Fixed Makefile to properly install stl_boolean. (Closes: #885792)
+
+ -- John Allwine <john@allwinedesigns.com>  Sat, 30 Dec 2017 04:13:36 +0000
+
 stlcmd (1.0-1) unstable; urgency=low
 
   * Initial release. (Closes: #884310)
@@ -28,7 +34,7 @@ stlcmd (1.0-1) unstable; urgency=low
 
 EOF
 
-echo 9 > debian/compat
+echo 10 > debian/compat
 
 cat <<EOF > debian/control
 Source: stlcmd
@@ -37,7 +43,7 @@ Homepage: https://www.github.com/AllwineDesigns/stl_cmd
 Section: misc
 Priority: optional
 Standards-Version: 3.9.8
-Build-Depends: debhelper (>= 9), help2man
+Build-Depends: debhelper (>= 10), help2man
 
 Package: stlcmd
 Architecture: any
@@ -59,12 +65,12 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: stl_cmd
 Upstream-Contact: John Allwine <john@allwinedesigns.com>
 Source: https://www.github.com/AllwineDesigns/stl_cmd
-License: GPL-3
+License: GPL-3+
 Copyright: 2017 Allwine Designs, LLC
 
 Files: *
 Copyright: 2017 Allwine Designs, LLC
-License: GPL-3
+License: GPL-3+
 
 Files: src/csgjs/*
 Copyright: 2011 Evan Wallace (http://madebyevan.com/)
@@ -73,7 +79,7 @@ Copyright: 2011 Evan Wallace (http://madebyevan.com/)
            2017 Allwine Designs, LLC
 License: MIT
 
-License: GPL-3
+License: GPL-3+
   This package is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 3 of the License, or
