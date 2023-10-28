@@ -7,12 +7,11 @@ cd /tmp
 #cd ..
 #mv stlcmd-1.0.tar.gz stlcmd_1.0.orig.tar.gz
 
-curl -L -o stlcmd_1.1.orig.tar.gz https://github.com/AllwineDesigns/stl_cmd/archive/v1.1.tar.gz
-curl -L -o stlcmd_1.1.orig.tar.gz.asc https://github.com/AllwineDesigns/stl_cmd/releases/download/v1.1/stl_cmd-1.1.tar.gz.asc
+curl -L -o stlcmd_1.2.orig.tar.gz https://github.com/AllwineDesigns/stl_cmd/archive/v1.2.tar.gz
 
-tar xf stlcmd_1.1.orig.tar.gz
-mv stl_cmd-1.1 stlcmd-1.1
-cd stlcmd-1.1
+tar xf stlcmd_1.2.orig.tar.gz
+mv stl_cmd-1.2 stlcmd-1.2
+cd stlcmd-1.2
 mkdir -p debian/source
 mkdir -p debian/upstream
 
@@ -20,6 +19,33 @@ mkdir -p debian/upstream
 # dch --create v 1.1-1 --package stlcmd
 
 cat <<EOF > debian/changelog 
+stlcmd (1.2) unstable; urgency=medium
+
+  (Closes: #1048618)
+  (Closes: #1054080)
+
+  Updated stl_boolean's help text to make it clear that difference means minus (subtraction).
+
+  New commands:
+
+  * stl_ascii - convert binary STL to ASCII STL
+  * stl_binary - convert ASCII STL to binary STL
+
+  * stl_area - calculates and prints the total surface area of all triangles in an STL file
+  * stl_volume - calculates and prints the total volume enclosed by the triangles in an STL file
+
+  * stl_cylinders - generate multiple cylinders using a custom binary input file of line segments that define the central axis of the cylinders.
+
+  * stl_bcylinder - print bounding cylinder information about an STL file.
+
+  * stl_decimate - simplify an STL mesh file.
+
+  * stl_flat - orient the largest surface that can lay flat along the negative Z axis.
+  * stl_zero - center an STL file at the origin.
+
+
+ -- John Allwine <john@allwinedesigns.com>  Sat, 30 Dec 2017 04:13:36 +0000
+
 stlcmd (1.1-1) unstable; urgency=medium
 
   * Fixed Makefile to properly install stl_boolean. (Closes: #885792)
@@ -71,6 +97,12 @@ Copyright: 2017 Allwine Designs, LLC
 Files: *
 Copyright: 2017 Allwine Designs, LLC
 License: GPL-3+
+
+Files: src/Simplify.h
+Copyright: 2014 Sven Forstmann
+           2016 Chris Rorden
+           2019 Allwine Designs, LLC
+License: MIT
 
 Files: src/csgjs/*
 Copyright: 2011 Evan Wallace (http://madebyevan.com/)
