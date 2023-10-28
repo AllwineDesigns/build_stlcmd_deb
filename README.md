@@ -1,5 +1,7 @@
 # Docker image that builds stl_cmd as a Debian package
 
+Note that I had to edit the ~/.dput.cf file and change http to https for the dput command to work.
+
     # will build the source and binary package for amd64
     docker build -t build_stlcmd_deb .
 
